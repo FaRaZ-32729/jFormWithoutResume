@@ -28,7 +28,8 @@ const FinalForm = () => {
     useEffect(() => {
         const fetchAreas = async () => {
             try {
-                const response = await axios.get("http://192.168.103.2:84/Employee/GetArea");
+                // http://192.168.103.2:84/Employee/GetArea
+                const response = await axios.get("http://192.168.103.2:84/api/AreaApi/GetArea");
                 // if (!response.ok) throw new Error("Failed to fetch areas");
                 // const result = await response.json();
                 // console.log(result)
@@ -47,7 +48,8 @@ const FinalForm = () => {
 
         const fetchPositions = async () => {
             try {
-                const positionResponse = await axios.get("http://192.168.103.2:84/Employee/Getpositions");
+                // http://192.168.103.2:84/Employee/Getpositions
+                const positionResponse = await axios.get("http://192.168.103.2:84/api/EmployeeApi/Getpositions");
                 // console.log(positionResponse.data.data, "position result");
                 setPositions(positionResponse.data.data);
             } catch (error) {
@@ -177,6 +179,25 @@ const FinalForm = () => {
                                         },
                                     }}
                                 />
+                                <InputField
+                                    label="Address"
+                                    name="address"
+                                    placeholder="Enter your address"
+                                    register={register}
+                                    errors={errors}
+                                    rules={{
+                                        required: "Address is required",
+                                        minLength: {
+                                            value: 5,
+                                            message: "Address must be at least 5 characters long",
+                                        },
+                                        pattern: {
+                                            value: /^[A-Za-z0-9\s,.'-/#]+$/,
+                                            message: "Enter a valid address (letters, numbers, and ,.'-/# only)",
+                                        },
+                                    }}
+                                />
+
 
                                 {/* Dynamic Area Dropdown */}
                                 <div>
@@ -272,7 +293,7 @@ const FinalForm = () => {
                                     register={register}
                                     errors={errors}
                                     rules={{ required: "Skills are required" }}
-                                    // fullWidth
+                                // fullWidth
                                 />
                                 <InputField
                                     label="Portfolio / LinkedIn / GitHub URL"
@@ -330,20 +351,25 @@ const FinalForm = () => {
                                         register={register}
                                     />
                                     <InputField
-                                        label="Notice Period"
+                                        label="Notice Period (only in days)"
                                         name="noticePeriod"
-                                        placeholder="e.g 30 days"
+                                        type="number"
+                                        placeholder="e.g. 30"
                                         register={register}
                                         errors={errors}
                                         rules={{
                                             required: "Notice period is required",
-                                            pattern: {
-                                                value: /^\d+\s*(days?)$/i,
-                                                message: "Enter notice period only in days (e.g. 30 days)",
+                                            min: {
+                                                value: 1,
+                                                message: "Notice period must be at least 1 day",
                                             },
+                                            // max: {
+                                            //     value: 365,
+                                            //     message: "Notice period cannot exceed 365 days",
+                                            // },
                                         }}
-
                                     />
+
                                 </motion.div>
                             )}
                         </motion.div>

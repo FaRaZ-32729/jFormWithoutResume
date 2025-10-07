@@ -49,6 +49,7 @@ const Preview = () => {
                 area: safe(cleanFormData.area),
                 dob: toYmd(cleanFormData.dob), // DateOnly-friendly
                 cnic: safe(cleanFormData.cnic), // NOTE: lower-case key
+                address: safe(cleanFormData.address), // NOTE: lower-case key
                 hightquali: safe(cleanFormData.qualification),
                 positionappliedfor: safe(cleanFormData.position),
                 proflinked: safe(cleanFormData.portfolio) || "",
@@ -75,9 +76,9 @@ const Preview = () => {
                     }),
             };
             console.log("dto", dto)
-
+            // "http://192.168.103.2:84/Employee/EmployeeAddEditnew",
             const response = await axios.post(
-                "http://192.168.103.2:84/Employee/EmployeeAddEditnew",
+                "http://192.168.103.2:84/api/EmployeeApi/AddEmployeeWithCv",
                 dto,
                 {
                     headers: { "Content-Type": "application/json" },
