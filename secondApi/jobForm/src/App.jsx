@@ -4,15 +4,17 @@ import { Route, Router, Routes } from 'react-router'
 import FinalForm from './components/FinalForm'
 import Preview from './components/Preview'
 import { ToastContainer } from 'react-toastify'
+import CandidateDetails from './components/CandidateDetails'
 
 const App = () => {
   return (
     <>
-    <ToastContainer position='top-right' autoClose={1500} />
+      <ToastContainer position='top-right' autoClose={1500} />
 
       <Routes>
         <Route path='/' element={<FinalForm />} />
         <Route path='/preview' element={<Preview />} />
+        <Route path='/preview/:id' element={<CandidateDetails />} />
         <Route path='/submitted' element={<SubmissionSummary />} />
       </Routes>
     </>

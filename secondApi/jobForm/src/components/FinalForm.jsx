@@ -303,6 +303,30 @@ const FinalForm = () => {
                                     errors={errors}
                                     type="url"
                                 />
+
+                                <div>
+                                    <label className="text-white">Resume (PDF Only)</label>
+                                    <input
+                                        type="file"
+                                        {...register("resume", {
+                                            required: "Resume is required",
+                                            validate: {
+                                                fileType: (value) => {
+                                                    const allowedTypes = "application/pdf";
+                                                    if (value && value[0].type != allowedTypes) {
+                                                        return "Only PDF file is allowed";
+                                                    }
+                                                    return true;
+                                                },
+                                            },
+                                        })}
+                                        accept=".pdf"
+                                        className="input-box"
+                                    />
+                                    {errors?.resume && (
+                                        <span className="text-red-400 text-sm">{errors.resume.message}</span>
+                                    )}
+                                </div>
                             </div>
                         </motion.div>
                     )}

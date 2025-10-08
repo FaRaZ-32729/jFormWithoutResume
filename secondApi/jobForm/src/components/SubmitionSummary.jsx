@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaCheck } from "react-icons/fa"; 
+import { FaCheck } from "react-icons/fa";
 import logo from "/logo.png";
+import { useNavigate } from "react-router";
 
 const SubmissionSummary = () => {
+
+
     return (
         <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-[#2b5876] to-[#4e4376] text-white px-4 relative">
             <motion.div

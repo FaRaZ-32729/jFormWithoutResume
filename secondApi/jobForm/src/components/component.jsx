@@ -1,92 +1,172 @@
+// import React from "react";
+// import { useLocation, useNavigate } from "react-router";
 // import axios from "axios";
+// import { toast } from "react-toastify";
 
-// const toYmd = (d) => {
-//   // accepts a Date, ISO string, or yyyy-MM-dd; returns yyyy-MM-dd
-//   if (!d) return null;
-//   const date = d instanceof Date ? d : new Date(d);
-//   if (Number.isNaN(date.getTime())) return null;
-//   const y = date.getFullYear();
-//   const m = String(date.getMonth() + 1).padStart(2, "0");
-//   const dd = String(date.getDate()).padStart(2, "0");
-//   return ${y}-${m}-${dd};
-// };
+// const Preview = () => {
+//     const { state } = useLocation();
+//     const navigate = useNavigate();
+//     const formData = state?.formData;
+//     const areas = state?.areas || [];
+//     const positions = state?.positions || [];
 
-// const safe = (v) => (typeof v === "string" ? v.trim() : v);
+//     // console.log("areas in preview" , areas)
 
-// const handleSubmit = async () => {
-//   try {
-//     // Build the DTO expected by the API
-//     const dto = {
-//       fullname: safe(formData.fullName),
-//       fathname: safe(formData.fatherName),
-//       emailaddres: safe(formData.email),
-//       phno: safe(formData.phone),
-//       maritalstatus: safe(formData.maritalStatus),
-//       gender: safe(formData.gender),
-//       area: safe(formData.area),
-//       dob: toYmd(formData.dob),                // DateOnly-friendly
-//       cnic: safe(formData.cnic),               // NOTE: lower-case key
-//       hightquali: safe(formData.qualification),
-//       positionappliedfor: safe(formData.position),
-//       proflinked: safe(formData.portfolio) || "",
-//       keyskills: safe(formData.skills),
+//     if (!formData)
+//         return <p className="text-center text-white">No data to preview.</p>;
 
-//       // Include current job fields only if working
-//       ...(formData.isWorking === "yes"
-//         ? {
-//             CurrJobTitle: safe(formData.currentJobTitle) || null,
-//             CurrCompany: safe(formData.currentCompany) || null,
-//             CurrSalary:
-//               formData.currentSalary !== undefined &&
-//               formData.currentSalary !== null &&
-//               String(formData.currentSalary).trim() !== ""
-//                 ? Number(formData.currentSalary)
-//                 : null,
-//             NoticePeriod: safe(formData.noticePeriod) || null,
-//           }
-//         : {
-//             CurrJobTitle: null,
-//             CurrCompany: null,
-//             CurrSalary: null,
-//             NoticePeriod: null,
-//           }),
+//     const handleEdit = () => navigate("/", { state: { formData } });
+
+//     const selectedArea = areas.find(a => a.id === Number(formData.area))?.name || "N/A";
+//     const selectedPosition = positions.find(p => p.id === Number(formData.position))?.name || "N/A";
+
+//     console.log(" data before submitting", formData)
+
+
+//     const toYmd = (d) => {
+//         if (!d) return null;
+//         const date = d instanceof Date ? d : new Date(d);
+//         if (Number.isNaN(date.getTime())) return null;
+//         const y = date.getFullYear();
+//         const m = String(date.getMonth() + 1).padStart(2, "0");
+//         const dd = String(date.getDate()).padStart(2, "0");
+//         return `${y}-${m}-${dd}`;
 //     };
 
-//     // Optional: quick client-side checks mirroring server rules
-//     if (!dto.cnic || dto.cnic.length !== 13) {
-//       return toast.error("Enter CNIC 13 digits.");
-//     }
-//     if (!dto.phno || dto.phno.length !== 11) {
-//       return toast.error("Enter Phone Number 11 digits.");
-//     }
-//     if (!dto.dob) {
-//       return toast.error("Enter a valid date of birth (yyyy-MM-dd).");
-//     }
+//     const safe = (v) => (typeof v === "string" ? v.trim() : v);
 
-//     const response = await axios.post(
-//       "http://192.168.10.2:84/Employee/EmployeeAddEditNew",
-//       dto,
-//       {
-//         headers: { "Content-Type": "application/json" },
-//         // optional but useful:
-//         timeout: 15000,
-//         // withCredentials: true, // only if your API uses cookies/auth that require it
-//       }
+//     const handleSubmit = async () => {
+//         try {
+//             const { isWorking, ...cleanFormData } = formData;
+//             // Build the DTO expected by the API
+//             const dto = {
+//                 fullname: safe(cleanFormData.fullName),
+//                 fathname: safe(cleanFormData.fatherName),
+//                 emailaddres: safe(cleanFormData.email),
+//                 phno: safe(cleanFormData.phone),
+//                 maritalstatus: safe(cleanFormData.maritalStatus),
+//                 gender: safe(cleanFormData.gender),
+//                 area: safe(cleanFormData.area),
+//                 dob: toYmd(cleanFormData.dob), 
+//                 cnic: safe(cleanFormData.cnic),
+//                 address: safe(cleanFormData.address), 
+//                 hightquali: safe(cleanFormData.qualification),
+//                 positionappliedfor: safe(cleanFormData.position),
+//                 proflinked: safe(cleanFormData.portfolio) || "",
+//                 keyskills: safe(cleanFormData.skills),
+//                 PdfBytes: null,
+
+                
+//                 ...(isWorking === "yes"
+//                     ? {
+//                         CurrJobTitle: safe(cleanFormData.currentJobTitle) || null,
+//                         CurrCompany: safe(cleanFormData.currentCompany) || null,
+//                         CurrSalary:
+//                             cleanFormData.currentSalary !== undefined &&
+//                                 formData.currentSalary !== null &&
+//                                 String(cleanFormData.currentSalary).trim() !== ""
+//                                 ? Number(cleanFormData.currentSalary)
+//                                 : null,
+//                         NoticePeriod: safe(cleanFormData.noticePeriod) || null,
+//                     }
+//                     : {
+//                         CurrJobTitle: null,
+//                         CurrCompany: null,
+//                         CurrSalary: null,
+//                         NoticePeriod: null,
+//                     }),
+//             };
+//             console.log("dto", dto)
+//             // "http://192.168.103.2:84/Employee/EmployeeAddEditnew",
+//             // http://192.168.103.2:84/api/EmployeeApi/AddEmployeeWithCv
+//             const response = await axios.post(
+//                 "http://192.168.103.2:84/api/EmployeeApi/AddEmployeeWithPdfBytes",
+//                 dto,
+//                 {
+//                     headers: { "Content-Type": "application/json" },
+//                     timeout: 15000,
+//                 }
+//             );
+
+//             console.log("Request DTO:", dto);
+//             console.log("Response:", response.data);
+
+//             if (response.data.success === "error") {
+//                 toast.error(response.data.message);
+//             } else {
+//                 toast.success("Form submitted successfully!");
+//                 navigate("/submitted");
+//             }
+//         } catch (error) {
+//             console.error("Error submitting form:", error);
+//             toast.error("Submission failed! Please check your network or server.");
+//         }
+//     };
+
+//     return (
+//         <div className="min-h-screen bg-gradient-to-br from-[#2b5876] to-[#4e4376] flex items-center justify-center p-6">
+//             <div className="bg-white/20 backdrop-blur-lg border border-white/30 rounded-3xl p-8 max-w-3xl w-full shadow-2xl text-white">
+//                 <h2 className="text-3xl font-bold text-center mb-6">
+//                     Preview Your Application
+//                 </h2>
+//                 <div className="space-y-3">
+//                     {Object.entries(formData).map(([key, value]) => {
+//                         if (
+//                             key === "resume" ||
+//                             key === "resumeFile" ||
+//                             key === "resumeName"
+//                         )
+//                             return null;
+
+//                         let displayValue = value;
+
+//                         if (key === "area") displayValue = selectedArea;
+//                         if (key === "position") displayValue = selectedPosition;
+
+//                         return (
+//                             <div
+//                                 key={key}
+//                                 className="flex justify-between border-b border-white/30 py-2"
+//                             >
+//                                 <span className="font-semibold capitalize">
+//                                     {key.replace(/([A-Z])/g, " $1")}:
+//                                 </span>
+//                                 <span>
+//                                     {key === "portfolio" && value ? (
+//                                         <a
+//                                             href={value}
+//                                             target="_blank"
+//                                             rel="noopener noreferrer"
+//                                             className="text-blue-300 underline hover:text-blue-400"
+//                                         >
+//                                             View Portfolio
+//                                         </a>
+//                                     ) : (
+//                                         String(displayValue)
+//                                     )}
+//                                 </span>
+//                             </div>
+//                         );
+//                     })}
+//                 </div>
+
+                // <div className="flex justify-between mt-8">
+                //     <button
+                //         onClick={handleEdit}
+                //         className="px-6 py-3 bg-white/20 rounded-full hover:bg-white/30 transition font-medium"
+                //     >
+                //         Edit
+                //     </button>
+                //     <button
+                //         onClick={handleSubmit}
+                //         className="px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full font-semibold shadow-lg"
+                //     >
+                //         Submit Application
+                //     </button>
+                // </div>
+//             </div>
+//         </div>
 //     );
+// };
 
-//     console.log("Request DTO:", dto);
-//     console.log("Response:", response.data);
-
-//     if (response?.data?.success === "error") {
-//       toast.error(response.data.message || "Submission failed.");
-//     } else {
-//       navigate("/submitted");
-//     }
-//   } catch (error) {
-//     console.error("Error submitting form:", error);
-
-//     // Helpful error messages
-//     if (error.code === "ERR_NETWORK") {
-//       // Likely CORS / mixed-content / server unreachable
-//       return toast.error(
-//         "Network error. Make
+// export default Preview;
