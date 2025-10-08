@@ -31,21 +31,21 @@ const Preview = () => {
 
     const safe = (v) => (typeof v === "string" ? v.trim() : v);
 
-    // Convert PDF file to Base64 string
+    // file to string
     const convertPdfToBase64 = (file) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-            const base64String = reader.result.split(",")[1]; // Extract the Base64 string
+            const base64String = reader.result.split(",")[1];
             setPdfBase64(base64String);
         };
-        reader.readAsDataURL(file); // Reads the PDF file as a data URL (Base64)
+        reader.readAsDataURL(file); 
     };
 
-    // Handle the resume file
-    const resumeFile = formData?.resume?.[0]; // Assuming only one file is selected
+    
+    const resumeFile = formData?.resume?.[0]; 
     useEffect(() => {
         if (resumeFile) {
-            convertPdfToBase64(resumeFile); // Convert PDF file to Base64 when file is selected
+            convertPdfToBase64(resumeFile); 
         }
     }, [resumeFile]);
 
