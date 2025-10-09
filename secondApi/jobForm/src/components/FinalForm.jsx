@@ -29,7 +29,7 @@ const FinalForm = () => {
         const fetchAreas = async () => {
             try {
                 // http://192.168.103.2:84/Employee/GetArea
-                const response = await axios.get("http://192.168.103.2:84/api/AreaApi/GetArea");
+                const response = await axios.get("https://careerapi.logicslabs.com/api/AreaApi/GetArea");
                 // if (!response.ok) throw new Error("Failed to fetch areas");
                 // const result = await response.json();
                 // console.log(result)
@@ -49,7 +49,7 @@ const FinalForm = () => {
         const fetchPositions = async () => {
             try {
                 // http://192.168.103.2:84/Employee/Getpositions
-                const positionResponse = await axios.get("http://192.168.103.2:84/api/EmployeeApi/Getpositions");
+                const positionResponse = await axios.get("https://careerapi.logicslabs.com/api/EmployeeApi/Getpositions");
                 // console.log(positionResponse.data.data, "position result");
                 setPositions(positionResponse.data.data);
             } catch (error) {
@@ -84,6 +84,7 @@ const FinalForm = () => {
 
     const onBack = () => setStep(step - 1);
     const isWorking = watch("isWorking");
+    // console.log("let see what the watch method is returning", isWorking);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#2b5876] to-[#4e4376] px-4">
@@ -126,7 +127,7 @@ const FinalForm = () => {
                                     rules={{
                                         required: "Full name is required",
                                         pattern: { value: /^[A-Za-z\s]+$/, message: "Only letters and spaces allowed" },
-                                        minLength: { value: 3, message: "At least 3 characters" },
+                                        
                                     }}
                                 />
                                 <InputField
@@ -137,7 +138,7 @@ const FinalForm = () => {
                                     rules={{
                                         required: "Father's name is required",
                                         pattern: { value: /^[A-Za-z\s]+$/, message: "Only letters and spaces" },
-                                        minLength: { value: 3, message: "At least 3 characters" },
+                                        
                                     }}
                                 />
                                 <InputField
@@ -154,7 +155,7 @@ const FinalForm = () => {
                                 <InputField
                                     label="Email"
                                     name="email"
-                                    type="email"
+                                    // type="email"
                                     register={register}
                                     errors={errors}
                                     rules={{
@@ -187,10 +188,6 @@ const FinalForm = () => {
                                     errors={errors}
                                     rules={{
                                         required: "Address is required",
-                                        minLength: {
-                                            value: 5,
-                                            message: "Address must be at least 5 characters long",
-                                        },
                                         pattern: {
                                             value: /^[A-Za-z0-9\s,.'-/#]+$/,
                                             message: "Enter a valid address (letters, numbers, and ,.'-/# only)",
@@ -387,10 +384,6 @@ const FinalForm = () => {
                                                 value: 1,
                                                 message: "Notice period must be at least 1 day",
                                             },
-                                            // max: {
-                                            //     value: 365,
-                                            //     message: "Notice period cannot exceed 365 days",
-                                            // },
                                         }}
                                     />
 
@@ -444,7 +437,7 @@ const FinalForm = () => {
 const InputField = ({ label, name, register, errors, rules = {}, type = "text", placeholder, fullWidth }) => (
     <div className={fullWidth ? "md:col-span-2" : ""}>
         <label className="text-white">{label}</label>
-        <input type={type} {...register(name, rules)} placeholder={placeholder} className="input-box" />
+        <input type={type} autoComplete="off" {...register(name, rules)} placeholder={placeholder} className="input-box" />
         {errors?.[name] && <span className="text-red-400 text-sm">{errors[name].message}</span>}
     </div>
 );

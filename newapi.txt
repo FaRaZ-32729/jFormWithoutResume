@@ -1,5 +1,0 @@
-http://192.168.103.2:84/api/EmployeeApi/AddEmployeeWithCv
-http://192.168.103.2:84/api/EmployeeApi/GetEmployeeData1
-http://192.168.103.2:84/api/AreaApi/GetArea
-http://192.168.103.2:84/api/EmployeeApi/Getpositions
-address

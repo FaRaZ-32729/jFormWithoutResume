@@ -12,7 +12,7 @@ const CandidateDetails = () => {
         const fetchCandidate = async () => {
             try {
                 const response = await axios.get(
-                    `https://careerapi.logicslabs.com/api/EmployeeApi/GetCandidateWithCv?candidateId=${id}`
+                    `http://192.168.103.2:84/api/EmployeeApi/GetCandidateWithCv?candidateId=${id}`
                 );
                 if (response.data.success === "ok") {
                     setCandidate(response.data.candidate);

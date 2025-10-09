@@ -13,7 +13,7 @@ const SpecificCandidateDetails = () => {
         const fetchCandidate = async () => {
             try {
                 const response = await axios.get(
-                    "https://careerapi.logicslabs.com/api/EmployeeApi/GetEmployeeData1"
+                    "http://192.168.103.2:84/api/EmployeeApi/GetEmployeeData1"
                 );
                 const data = response.data.data ;
                 // console.log(data)
